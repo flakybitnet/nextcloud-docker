@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 
+. .cicd/env
+
 PROJECT='nextcloud'
 IMG_NAME='server'
 VERSION='27.1.6'

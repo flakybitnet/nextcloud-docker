@@ -2,6 +2,7 @@
 set -eu
 
 . .cicd/env
+
 DOCKER_CONF_DIR='/kaniko/.docker'
 
 echo Setting up Docker registry authentication
