@@ -8,5 +8,6 @@ printf 'APP_NAME=%s\n' "$APP_NAME" >> .cicd/env
 printf 'REGISTRY=%s\n' 'harbor.flakybit.net' >> .cicd/env
 printf 'PROJECT=%s\n' "$APP_NAME" >> .cicd/env
 printf 'IMG_NAME=%s\n' 'server' >> .cicd/env
+printf 'IMG_ALT_NAME=%s\n' "$APP_NAME" >> .cicd/env
 
 cat .cicd/env
