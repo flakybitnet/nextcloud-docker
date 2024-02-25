@@ -1,0 +1,13 @@
+steps:
+  set-env:
+    image: debian:bookworm-slim
+    commands:
+      - .cicd/set-env.sh
+  image:
+    image: gcr.io/kaniko-project/executor:v1.20.1-debug
+    commands:
+      - .cicd/set-docker-auth.sh
+      - .cicd/build.sh
+    secrets:
+      - docker_usr
+      - docker_pwd
