@@ -3,14 +3,14 @@ set -eu
 
 . .cicd/env
 
-VERSION='27.1.6'
+IMAGE="$HARBOR_PROJECT/$HARBOR_REPOSITORY:$APP_VERSION"
 DOCKERFILE='./Dockerfile'
 
-echo Building $IMG_NAME:$VERSION image
+echo Building $IMAGE image
+
 executor --context ./ \
     --dockerfile "$DOCKERFILE" \
-    --build-arg VERSION=$VERSION \
-    --destination "$REGISTRY/$PROJECT/$IMG_NAME:$VERSION" \
-    --destination "$REGISTRY/$PROJECT/$IMG_ALT_NAME:$VERSION"
+    --build-arg VERSION=$APP_VERSION \
+    --destination "$HARBOR_REGISTRY/$IMAGE"
 
-echo Building $IMG_NAME:$VERSION image has been completed
+echo Building $IMAGE image has been completed
