@@ -2,6 +2,7 @@
 # SKIP_IMAGE=true|false - skip building image
 # SKIP_PUBLISH_QUAY=true|false - skip publishing in Quay
 # SKIP_PUBLISH_GHCR=true|false - skip publishing in GitHub
+# SKIP_PUBLISH_ECR=true|false - skip publishing in AWS Public ECR
 
 steps:
   set-env:
@@ -34,3 +35,18 @@ steps:
       - .cicd/publish-ghcr.sh
     secrets:
       - ghcr_creds
+  get-aws-auth:
+    when:
+      evaluate: 'SKIP_PUBLISH_ECR != "true"'
+    image: public.ecr.aws/aws-cli/aws-cli:2.15.23
+    commands:
+      - .cicd/get-aws-ecr-auth.sh
+    secrets:
+      - aws_access_key_id
+      - aws_secret_access_key
+  publish-ecr:
+    when:
+      evaluate: 'SKIP_PUBLISH_ECR != "true"'
+    image: quay.io/containers/skopeo:v1.14.2
+    commands:
+      - .cicd/publish-ecr.sh
