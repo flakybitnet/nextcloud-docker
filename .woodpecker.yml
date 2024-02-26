@@ -40,7 +40,7 @@ steps:
       evaluate: 'SKIP_PUBLISH_ECR != "true"'
     image: public.ecr.aws/aws-cli/aws-cli:2.15.23
     commands:
-      - .cicd/get-aws-ecr-auth.sh
+      - .cicd/get-aws-ecr-pwd.sh
     secrets:
       - aws_access_key_id
       - aws_secret_access_key

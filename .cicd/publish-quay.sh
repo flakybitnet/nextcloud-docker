@@ -13,4 +13,4 @@ echo Publishing $DST_IMAGE image
 
 skopeo copy --dest-creds="$QUAY_CREDS" "docker://$SRC_IMAGE" "docker://$DST_IMAGE"
 
-echo Publishing $DST_IMAGE image has been completed
+echo Done

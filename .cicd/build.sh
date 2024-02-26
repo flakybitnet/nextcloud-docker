@@ -13,4 +13,4 @@ executor --context ./ \
     --build-arg VERSION=$APP_VERSION \
     --destination "$HARBOR_REGISTRY/$IMAGE"
 
-echo Building $IMAGE image has been completed
+echo Done

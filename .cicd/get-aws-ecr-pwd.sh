@@ -1,10 +1,11 @@
 #!/bin/sh
 set -eu
 
-USER='AWS'
+. .cicd/env
 
 echo Obtaining AWS Public ECR credentials
 
 PASSWORD=$(aws ecr-public get-login-password --region us-east-1)
-CREDS=$(printf '%s:%s' "$USER" "$PASSWORD")
-echo -n "$CREDS" > .cicd/aws-ecr-auth
+echo -n "$PASSWORD" > "$AWS_PWD_FILE"
+
+echo Done
