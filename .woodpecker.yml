@@ -4,6 +4,11 @@
 # SKIP_PUBLISH_GHCR=true|false - skip publishing in GitHub
 # SKIP_PUBLISH_ECR=true|false - skip publishing in AWS Public ECR
 
+variables:
+  - &kaniko_image "gcr.io/kaniko-project/executor:v1.21.1-debug"
+  - &skopeo_image "quay.io/containers/skopeo:v1.14.2"
+  - &awscli_image "public.ecr.aws/aws-cli/aws-cli:2.15.28"
+
 steps:
   set-env:
     image: debian:bookworm-slim
@@ -12,7 +17,7 @@ steps:
   image:
     when:
       evaluate: 'SKIP_IMAGE != "true"'
-    image: gcr.io/kaniko-project/executor:v1.20.1-debug
+    image: *kaniko_image
     commands:
       - .cicd/set-docker-auth.sh
       - .cicd/build.sh
@@ -22,7 +27,7 @@ steps:
   publish-quay:
     when:
       evaluate: 'SKIP_PUBLISH_QUAY != "true"'
-    image: quay.io/containers/skopeo:v1.14.2
+    image: *skopeo_image
     commands:
       - .cicd/publish-quay.sh
     secrets:
@@ -30,7 +35,7 @@ steps:
   publish-ghcr:
     when:
       evaluate: 'SKIP_PUBLISH_GHCR != "true"'
-    image: quay.io/containers/skopeo:v1.14.2
+    image: *skopeo_image
     commands:
       - .cicd/publish-ghcr.sh
     secrets:
@@ -38,7 +43,7 @@ steps:
   get-aws-auth:
     when:
       evaluate: 'SKIP_PUBLISH_ECR != "true"'
-    image: public.ecr.aws/aws-cli/aws-cli:2.15.23
+    image: *awscli_image
     commands:
       - .cicd/get-aws-ecr-pwd.sh
     secrets:
@@ -47,6 +52,6 @@ steps:
   publish-ecr:
     when:
       evaluate: 'SKIP_PUBLISH_ECR != "true"'
-    image: quay.io/containers/skopeo:v1.14.2
+    image: *skopeo_image
     commands:
       - .cicd/publish-ecr.sh
