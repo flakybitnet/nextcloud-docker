@@ -11,7 +11,12 @@ variables:
   - &app_version "28.0.4"
 
 when:
-  - event:
+  - branch: main
+    event:
+      - manual
+  - branch:
+      exclude: main
+    event:
       - push
       - manual
 
