@@ -1,5 +1,5 @@
-ARG VERSION=stable
-FROM nextcloud:${VERSION}-apache
+ARG NEXTCLOUD_VERSION
+FROM nextcloud:${NEXTCLOUD_VERSION}-apache
 
 RUN set -ex; \
     \
